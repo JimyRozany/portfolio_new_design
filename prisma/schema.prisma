@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Project {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  titleAr     String
+  titleEn     String
+  descAr      String
+  descEn      String
+  pointsAr    String[]
+  pointsEn    String[]
+  tech        String[]
+  imageUrl    String?
+  liveUrl     String?
+  repoUrl     String?
+  kind        String   @default("professional")
+  featured    Boolean  @default(false)
+  published   Boolean  @default(false)
+  sort        Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Experience {
+  id        String   @id @default(cuid())
+  company   String
+  roleAr    String
+  roleEn    String
+  periodAr  String
+  periodEn  String
+  bulletsAr String[]
+  bulletsEn String[]
+  sort      Int      @default(0)
+}
+
+model Skill {
+  id       String @id @default(cuid())
+  name     String
+  category String
+  sort     Int    @default(0)
+}
+
+model Service {
+  id        String   @id @default(cuid())
+  titleAr   String
+  titleEn   String
+  descAr    String
+  descEn    String
+  published Boolean  @default(true)
+  sort      Int      @default(0)
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  body      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+// key-value for Home/About/SEO/CV url, values per language
+model Setting {
+  key     String @id
+  valueAr String @default("")
+  valueEn String @default("")
+}
